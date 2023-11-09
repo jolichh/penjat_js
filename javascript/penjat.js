@@ -2,22 +2,40 @@
 // en iniciar programa, l'usuari veurà un menú per consola amb les seguents opcions:
 // Iniciar joc, Estadístiques i Sortir
 
+//aquestes son variables globals
+const intents = 6;
+let falla = 0;
+let acerta = 0;
+let partidesCount = 0;
+let partidesGuanyades = 0;
+let partidesPerdudes = 0;
+
+let estGuanyada = 0;
+let estPerduda = 0;
+
 //es mostra per alerts perque no em funciona inspeccionar consola
 function novaPartida() {
+
     while (true) {
-        let user = prompt("Press: 1-Iniciar un joc, 2-Estadístiques, 3-Sortir");
+        let user = prompt("Press: \n1-Iniciar un joc \n2-Estadístiques \n3-Sortir");
         //eliminar todos los posibles espacios blancos
         user = user.trim();
         
-        if (user) { //si no está vacío
+        if (user && user == 1 || user == 2 || user == 3) { //si no está vacío
             //comprovamos las 3 posibilidades
             if (user == 3) {
+                resetValues();
                 break;
             }
             if (user == 2) {
+                //funcio mitja parametres(x = ?, y = 100%)
+                estGuanyada = mitja(partidesGuanyades,partidesCount);
+                estPerduda = mitja(partidesPerdudes,partidesCount);
                 mostraEstadistica();
             }
             if (user == 1) {
+                falla = 0;  //neteja 
+                acerta = 0;
                 enPartida();
             }
         } else {
@@ -27,25 +45,33 @@ function novaPartida() {
 }
 //option 2
 function mostraEstadistica() {
-    alert("has escogido opcion 2");
-    document.write("Total de partides: ");
-    document.write("Partiddes guanyades("+'mGuanyades'+"):" + 'guanyades');
-    document.write("Partides perdudes("+ 'mPerdudes' + "): " + 'perdudes');
+    alert(`Total de partides: ${partidesCount} \nPartides guanyades: (${estGuanyada}%): ${partidesGuanyades} \nPartides perdudes (${estPerduda}%): ${partidesPerdudes}`);
+}
+
+function resetValues() {
+    //reset values
+    falla = 0;
+    acerta = 0;
+    partidesCount = 0;
+    partidesGuanyades = 0;
+    partidesPerdudes = 0;
+}
+
+//retorna la mitja de x = ?, y = 100%
+function mitja(x, y) {
+    let result = (x*100)/y;
+    return result.toFixed(2);
 }
 
 //option 1
 function enPartida() {
-    alert("has escogido opcion 1");
+    partidesCount++;
     let paraula = prompt("Introdueix una paraula:");
-    let encriptada = encriptaParaula(paraula);  //array
-    let lletresUtilitzades = ""; //lletres que introdueix l'usuari
-    
-    //chivato: mostrem la paraula encriptada
-    alert(encriptada+ ': '+paraula);
+    let arrayEncriptada = encriptaParaula(paraula);  //paraula en array de lletres
+    console.log(arrayEncriptada.join(""));
 
-    let intents = 6;
-    let falla = 0;
-    let acerta = 0;
+    let lletresFallades = [];
+
     while (falla<intents) {
         //es demana lletra fins que acabi partida: win or lose
         let lletra = prompt("Introdueix una lletra");
@@ -53,27 +79,36 @@ function enPartida() {
             continue;
         }
         //si la letra es vàlida comprovamos si está en la palabra de juego
-        if(paraula.includes(lletra)) {
+        if(paraula.includes(lletra)) {            
+            //destapamos la palabra (si acierta letra)
+            for (let i= 0; i<arrayEncriptada.length; i++) {
+                if(paraula[i].match(lletra)) {
+                    arrayEncriptada[i] = lletra;
+                }
+            }
             acerta++;
-        } else {
+        }
+
+        //si falla guardamos la letra
+        if (!paraula.includes(lletra)) {
+            lletresFallades.push(lletra);
             falla++;
         }
-        alert("Fallos: "+falla+" aciertos: "+acerta);
 
-        //destapamos la palabra (si acierta letra)
-        for (let i= 0; i<encriptada.length(); i++) {
-            if(paraula.includes(lletra)) {
-                tmp = tmp + caracter;
-            }
-        }
-        if (lletresUtilitzades.contains(paraula)) {
-            alert("HAs ganado! volveras a inicio");
+        if (paraula === arrayEncriptada.join("")) {
+            alert("Enhorabona has guanyat!");
+            partidesGuanyades++;
             break;
         }
+
+        //muestra a cada tirada
+        alert("Panel: "+arrayEncriptada + "\nLletres fallades "+ falla + "/"+ intents+ ": " + lletresFallades);
     }
-    //comprovamos si estan todas destapadas
-    if (!lletresUtilitzades.match(paraula)) {
-        alert("Has perdido! Vas a salir a inicio");
+
+    //si no cumple condicion while o no ha ganado
+    if (paraula !== arrayEncriptada.join("")) {
+        alert("Has mort penjat...");
+        partidesPerdudes++;
     }
 }
 //encripta la paraula de joc i retorna array del string
