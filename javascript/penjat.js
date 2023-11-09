@@ -21,7 +21,7 @@ function novaPartida() {
         //eliminar todos los posibles espacios blancos
         user = user.trim();
         
-        if (user && user == 1 || user == 2 || user == 3) { //si no está vacío
+        if (user && user == 1 || user == 2 || user == 3) { //si no está vacío ni es una opcion
             //comprovamos las 3 posibilidades
             if (user == 3) {
                 resetValues();
