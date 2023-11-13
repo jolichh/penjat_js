@@ -13,35 +13,43 @@ let partidesPerdudes = 0;
 let estGuanyada = 0;
 let estPerduda = 0;
 
+//variables para HTML
+let letraHtml;
+let arrayEncriptada;
+let paraula;
+let lletresUtilitzades = [];
 //es mostra per alerts perque no em funciona inspeccionar consola
 function novaPartida() {
+    lletresUtilitzades = [];
+    partidesCount++;
+    falla = 0;  //neteja 
+    acerta = 0; //neteja
+    creaBotons();
+    //demana paraula de joc
+    paraula = prompt("Introdueix una paraula:");
+    arrayEncriptada = encriptaParaula(paraula);  //paraula en array de lletres
 
-    while (true) {
-        let user = prompt("Press: \n1-Iniciar un joc \n2-Estadístiques \n3-Sortir");
-        //eliminar todos los posibles espacios blancos
-        user = user.trim();
-        
-        if (user && user == 1 || user == 2 || user == 3) { //si no está vacío ni es una opcion
-            //comprovamos las 3 posibilidades
-            if (user == 3) {
-                resetValues();
-                break;
-            }
-            if (user == 2) {
-                //funcio mitja parametres(x = ?, y = 100%)
-                estGuanyada = mitja(partidesGuanyades,partidesCount);
-                estPerduda = mitja(partidesPerdudes,partidesCount);
-                mostraEstadistica();
-            }
-            if (user == 1) {
-                falla = 0;  //neteja 
-                acerta = 0;
-                enPartida();
-            }
-        } else {
-            alert("error");
-        }
-    }
+    mostraLletraEncriptada();
+    
+}
+//esta funcion se utiliza una vez por partida para crear el elemento
+function mostraLletresUtilitzades() {
+    let divLletresUtilitzades = document.getElementById("lletresUtilitzades");
+    // let p = document.createElement("p");
+    // p.textContent = lletresUtilitzades.join(" ");
+    // divLletresUtilitzades.appendChild(p);
+    let p = lletresUtilitzades.join(" ");
+    divLletresUtilitzades.innerHTML = p;
+}
+
+//*NOTA: para que no salga p modo triangulo: usar innerHTML como en el button y en vez de += solo usar = y asignar nuevo valor
+function mostraLletraEncriptada() {
+    let divJocPenjat = document.getElementById("jocPenjat");
+    // let p = document.createElement("p");
+    // p.textContent = arrayEncriptada.join(" ");
+    // divJocPenjat.appendChild(p);
+    let p = arrayEncriptada.join(" ");
+    divJocPenjat.innerHTML = p;
 }
 //option 2
 function mostraEstadistica() {
@@ -74,7 +82,8 @@ function enPartida() {
 
     while (falla<intents) {
         //es demana lletra fins que acabi partida: win or lose
-        let lletra = prompt("Introdueix una lletra");
+        // let lletra = prompt("Introdueix una lletra");
+        let lletra = letraHtml;
         if (!esUnaLletra(lletra)) {
             continue;
         }
@@ -129,4 +138,78 @@ function esUnaLletra(lletra) {
         }
     }
     return false;
+}
+function creaBotons() {
+    let acbArray = [ 'A', 'B', 'C', 'D', 'E', 'F', 'G','H','I','J','K','L','M','N','O','P','Q','R','S','T','V','W','X','Z'];
+    //hace get del div del html con ese id
+    let divAbc = document.getElementById("abecedari");
+    let txt = "";
+    
+    //recorre array de letras y los muestra al html
+    acbArray.forEach(elemento =>{
+        txt += `<button id="${elemento}" type="button" onclick="clickLletra('${elemento}')">${elemento}</button>`;
+
+    });
+    divAbc.innerHTML = txt;
+    // alert(divAbc);
+}
+//HTML elements
+// document.addEventListener("DOMContentLoaded", function() {
+//     let acbArray = [ 'A', 'B', 'C', 'D', 'E', 'F', 'G','H','I','J','K','L','M','N','O','P','Q','R','S','T','V','W','X','Z'];
+//     //hace get del div del html con ese id
+//     let divAbc = document.getElementById("abecedari");
+//     let txt = "";
+    
+//     //recorre array de letras y los muestra al html
+//     acbArray.forEach(elemento =>{
+//         txt += `<button id="${elemento}" onclick="clickLletra('${elemento}')>${elemento}</button>"`;
+//         // let input = document.createElement("input");
+//         // input.type = "button";
+//         // input.value = elemento;
+//         // input.onclick = function() { clickLletra(elemento) };
+//         // divAbc.appendChild(input);
+
+//     });
+//     divAbc.innerHTML = txt;
+//     alert(divAbc);
+// });
+
+//funciones al click sobre la letra de html
+function clickLletra(lletra) {
+    alert("has hecho click en: "+lletra);
+    utilitzaLletra(lletra); //comprueba si falla o acierta
+    disableLletra(lletra);
+}
+//al utilizar letra (acierta o falla) muestra la lista actualizada de letras utilizadas
+function utilitzaLletra(lletra) {
+    //comprueba si esta la letra
+    if(paraula.includes(lletra)) {            
+        //destapamos la palabra (si acierta letra)
+        for (let i= 0; i<arrayEncriptada.length; i++) {
+            if(paraula[i].match(lletra)) {
+                arrayEncriptada[i] = lletra;
+            }
+        }
+        acerta++;
+    }
+    //si falla
+    if (!paraula.includes(lletra)) {
+        falla++;
+    }
+    //guarda lletres utilitzades
+    lletresUtilitzades.push(lletra);
+    mostraLletresUtilitzades();
+
+    if (paraula === arrayEncriptada.join("")) {
+        alert("Enhorabona has guanyat!");
+        partidesGuanyades++;
+    }
+    if (falla>=intents) {
+        alert("Has perdut...");
+    }
+}
+//deja marcada la letra como usada
+function disableLletra(lletra) {
+    let boton = document.getElementById(`${lletra}`);
+    boton.disabled = true;
 }
