@@ -1,5 +1,8 @@
 # Joc del penjat
 #### Es tracta d’implementar en Javascript i html el joc del penjat
+**Branques:**
+  - *joana (versió text)*
+  - *ver_graphic (versió gràfica)*
 ## Enunciat
 En iniciar el programa, l’usuari veurà un menú per consola amb les següents opcions:
 1. Iniciar un joc
