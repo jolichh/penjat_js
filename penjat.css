@@ -1,0 +1,46 @@
+#generalContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+    height: 100vh;
+}
+#container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+.iniciar {
+    background-color: green;
+}
+.estadisticas {
+    background-color: rgb(65, 93, 235);
+}
+.boton {
+    margin: 15px;
+}
+.btn {
+    border: 1px solid;
+    border-radius: 10px;
+    width: fit-content;
+    padding: 8px 16px;
+    margin: 2px;
+}
+button:hover {
+    cursor: pointer;
+}
+#abecedari button {
+    background-color: rgb(221, 255, 0);
+    margin: 3px;
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 20%;
+    width: 30px;
+}
+#estadisticas {
+    margin: 20px 5px;
+}
+#estadisticas p {
+    margin: 0px;
+}
