@@ -90,13 +90,14 @@ function mostraLletresUtilitzades() {
 }
 //mostra les estadístiques
 function mostraEstadistica() {
-    // alert(`Total de partides: ${partidesCount} \nPartides guanyades: (${estGuanyada}%): ${partidesGuanyades} \nPartides perdudes (${estPerduda}%): ${partidesPerdudes}`);
-    //funcio mitja parametres(x = ?, y = 100%)
+    let nowWindows = window.open("", "_blank");
+    
     estGuanyada = mitja(partidesGuanyades,partidesCount);
     estPerduda = mitja(partidesPerdudes,partidesCount);
-    let divEstadisticas = document.getElementById("estadisticas");
+    //let divEstadisticas = document.getElementById("estadisticas");
     let txt = `<p>Total de partides: ${partidesCount} </p><p>Partides guanyades: (${estGuanyada}%): ${partidesGuanyades}</p><p>Partides perdudes (${estPerduda}%): ${partidesPerdudes}</p>`;
-    divEstadisticas.innerHTML = txt;
+   nowWindows.document.write(txt);
+    // divEstadisticas.innerHTML = txt;
 }
 //mostra img segons el numero de error
 function mostraDibuix() {

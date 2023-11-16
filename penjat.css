@@ -27,6 +27,9 @@
     padding: 8px 16px;
     margin: 2px;
 }
+button:hover {
+    cursor: pointer;
+}
 #abecedari button {
     background-color: rgb(221, 255, 0);
     margin: 3px;
@@ -34,9 +37,6 @@
     border: 1px solid;
     border-radius: 20%;
     width: 30px;
-}
-#abecedari button:hover {
-    cursor: pointer;
 }
 #estadisticas {
     margin: 20px 5px;
