@@ -4,23 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="javascript/penjat.js"></script>
+    <link rel="stylesheet" href="penjat.css">
     <title>Joc del Penjat</title>
 </head>
 <body>
-    <div id="header">
-        <h1 id="titol">Joc del penjat</h1>
-    </div>
-    <div id="container">
-        <div class="btn">
-            <button class="iniciar" onclick="novaPartida()">Iniciar partida</button>
-            <button class="estadisticas" onclick="mostraEstadistica()">Estadístiques</button>
-            <button class="reseteja" onclick="reset()">Neteja estadístiques</button>
+    <div id="generalContainer">
+        <div id="header">
+            <h1 id="titol">Joc del penjat</h1>
         </div>
-        <div id="jocPenjat">           
+        <div id="container">
+            <div class="boton">
+                <button class="iniciar btn" onclick="novaPartida()">Iniciar partida</button>
+                <button class="estadisticas btn" onclick="mostraEstadistica()">Estadístiques</button>
+                <button class="reseteja btn" onclick="resetValues()">Neteja estadístiques</button>
+            </div>
+            <div id="jocPenjat"></div>
+            <img src="" id="imatgePenjat"/>
+            <div id="abecedari"></div>
+            <div id="lletresUtilitzades"></div>
+            
+            <div id="estadisticas"></div>
         </div>
-        <img src="" id=""imatgePenjat />
-        <div id="abecedari"></div>
-        <div id="lletresUtilitzades"></div>
     </div>
 </body>
 </html>
